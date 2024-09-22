@@ -81,6 +81,10 @@ type Variante = {
 }
 
 export function FinancingAdvisorComponent() {
+  const objektArten = [  
+    "ETW", "Einfamilienhaus", "Zweifamilienhaus", "Mehrfamilienhaus", "Wohn- und Geschäftshaus", "Gewerbeobjekt", "Volle Eigennutzung", "Eigennutzung und Vermietung", "Volle Vermietung"
+  ];
+
   const [varianten, setVarianten] = useState<Variante[]>([
     {
       id: 1,
@@ -318,15 +322,15 @@ export function FinancingAdvisorComponent() {
                   <Input id="kundenName" placeholder="Name eingeben" />
                 </div>
                 <div>
-                  <Label htmlFor="immobilientyp">Immobilientyp:</Label>
+                  <Label htmlFor="objektart">Objektart:</Label>
                   <Select>
-                    <SelectTrigger id="immobilientyp">
+                    <SelectTrigger id="objektart">
                       <SelectValue placeholder="Typ auswählen" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="einfamilienhaus">Einfamilienhaus</SelectItem>
-                      <SelectItem value="zweifamilienhaus">Zweifamilienhaus</SelectItem>
-                      <SelectItem value="mehrfamilienhaus">Mehrfamilienhaus</SelectItem>
+                      {objektArten.map((objektName) => (
+                        <SelectItem key={objektName} value={objektName}>{objektName}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>

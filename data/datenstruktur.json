@@ -1,127 +1,148 @@
 {
   "kunde": {
-    "immobilientyp": "Einfamilienhaus",
     "objektnutzung": "Volle Eigennutzung",
-    "objektArten": [
-      "ETW", "Einfamilienhaus", "Zweifamilienhaus", "Mehrfamilienhaus", "Wohn- und Geschäftshaus", "Gewerbeobjekt", "Volle Eigennutzung", "Eigennutzung und Vermietung", "Volle Vermietung"],
+    "objektArt": "Einfamilienhaus",
     "darlehensnehmer": "Max Mustermann"
   },
   "kostenaufstellung": {
-    "kaufpreis": 179.000,
+    "kaufpreis": 179000,
     "grunderwerbssteuer": 6.00,
+    "grunderwerbssteuerPreis": 10740,
     "notarUndGerichtskosten": 2.00,
+    "notarUndGerichtskostenPreis": 3580,
     "vermittlerprovision": 5.95,
-    "neubaukostenUndBaunebenkosten": 0,
+    "vermittlerprovisionPreis": 10651,
+    "neubaukostenUndBaunebenkosten": 0.00,
     "sanierungskosten": 0,
     "sonstiges": 0,
     "eigenkapital": 971,
     "eigenleistung": 0, 
-    "gesamtaufwand": 203.971,
-    "nettoDarlehensbetrag": 203.000
+    "gesamtaufwand": 203971,
+    "nettoDarlehensbetrag": 203000,
+    "risikoanalyse": 113.41
   },
   "finanzierungsvarianten": [
     {
-      "name": "Standard-Finanzierung",
+      "name": "Variante1",
       "tranchen": [
         {
-          "name": "Bank",
-          "kreditinstitut": "Deutsche Bank",
-          "darlehen": 161000.00,
-          "startdatum": "2020-01",
-          "enddatum": "2038-01",
-          "zinslaufzeit": 15,
-          "tilgungsrate": 2.00,
-          "sollzins": 1.35,
-          "sollzinsbindung": "2038-08-30",
-          "effektivzins": 1.36,
-          "sondertilgungsrecht": 5.00,
-          "detaillierteTilgungsraten": [
-            {"startdatum": "2023-07", "enddatum": "2028-06", "rate": 2.00},
-            {"startdatum": "2028-07", "enddatum": "2033-06", "rate": 2.50},
-            {"startdatum": "2033-07", "enddatum": "2038-06", "rate": 3.00}
-          ],
-          "detaillierteSondertilgungen": [
-            {"jahr": 2025, "betrag": 5000},
-            {"jahr": 2030, "betrag": 10000}
-          ],
-          "kpdNachZinsbindung": {
-            "zins": 8.00,
-            "tilgung": 0.00
+          "eingabe": {
+            "tranchenName": "Festzinsdarlehen",
+            "kreditinstitut": "Deutsche Bank",
+            "darlehen": 161000,
+            "auszahlungskurs": 100.00,
+            "startdatum": "2020-01",
+            "enddatum": "2038-01",
+            "zinslaufzeit": 15,
+            "tilgungsrate": 2.00,
+            "sollzins": 1.35,
+            "sollzinsbindung": "2035-01",
+            "effektivzins": 1.36,
+            "sondertilgungsrecht": 5.00,
+            "detaillierteTilgungsraten": [
+              {"startdatum": "2023-07", "enddatum": "2028-06", "rate": 2.00},
+              {"startdatum": "2028-07", "enddatum": "2033-06", "rate": 2.50},
+              {"startdatum": "2033-07", "enddatum": "2038-06", "rate": 3.00}
+            ],
+            "detaillierteSondertilgungen": [
+              {"jahr": 2025, "betrag": 5000},
+              {"jahr": 2030, "betrag": 10000}
+            ],
+            "kpdNachZinsbindung": {
+              "zins": 8.00,
+              "tilgung": 0.00
+            },
+            "tilgungsfreieMonate": 0
           },
-          "tilgungsfreieMonate": 6,
-          "monatlicheAbzahlung": 449.46,
-          "restschuldNachZinsbindung": 127495.35,
-          "voraussichtlicheLaufzeit": 38.2
+          "ausgabe": {
+            "monatlicheAbzahlung": 449.46,
+            "restschuldNachZinsbindung": 107495.35,
+            "voraussichtlicheLaufzeit": 38.2
+          }
+        },
+        {
+          "eingabe": {
+            "tranchenName": "Nachrangdarlehen",
+            "kreditinstitut": "Sparkasse",
+            "darlehen": 42000,
+            "auszahlungskurs": 100.00,
+            "startdatum": "2020-01",
+            "enddatum": "2038-01",
+            "zinslaufzeit": 15,
+            "tilgungsrate": 4.27,
+            "sollzins": 5.59,
+            "sollzinsbindung": "2035-01",
+            "effektivzins": 5.69,
+            "sondertilgungsrecht": 5.00,
+            "detaillierteTilgungsraten": [],
+            "detaillierteSondertilgungen": [],
+            "kpdNachZinsbindung": {
+              "zins": 8.00,
+              "tilgung": 0.00
+            },
+            "tilgungsfreieMonate": 12
+          },
+          "ausgabe": {
+            "monatlicheAbzahlung": 345.24,
+            "restschuldNachZinsbindung": 33974.43,
+            "voraussichtlicheLaufzeit": 16.0
+          }
         }
       ],
       "summeMonatlicheAbzahlungen": 549.46,
-      "zusammenfassungTilgungstabelle": [
-
-      ]
-    },
-    {
-      "name": "Split-Finanzierung",
-      "tranchen": [
+      "finanzierungsEntwicklung": [
         {
-          "name": "Hauptdarlehen",
-          "kreditinstitut": "Sparkasse",
-          "bruttoDarlehensbetrag": 150000,
-          "startdatum": "2023-07",
-          "enddatum": "2033-06",
-          "zinslaufzeit": 10,
-          "sollzins": 1.25,
-          "tilgungsrate": 2.50,
-          "detaillierteTilgungsraten": [
-            {"startdatum": "2023-07", "enddatum": "2033-06", "rate": 2.50}
-          ],
-          "sondertilgungsrecht": 5,
-          "detaillierteSondertilgungen": [],
-          "kpdNachZinsbindung": {
-            "zins": 7.50,
-            "tilgung": 0.00
-          },
-          "tilgungsfreieMonate": 0,
-          "monatlicheAbzahlung": 468.75,
-          "restschuldNachZinsbindung": 112500.00,
-          "voraussichtlicheLaufzeit": 30.5
+          "Jahr": 2020,
+          "Immobilienwert": "180.223 €",
+          "Restschuld Jahresende": "201.322 €",
+          "Sondertilgung gesamt": "1.678 €",
+          "Summe Tilgung gesamt": "7.236 €",
+          "Rate monatlich": "795 €"
         },
         {
-          "name": "KfW-Darlehen",
-          "kreditinstitut": "KfW",
-          "bruttoDarlehensbetrag": 46000,
-          "startdatum": "2023-07",
-          "enddatum": "2043-06",
-          "zinslaufzeit": 20,
-          "sollzins": 0.75,
-          "tilgungsrate": 4.00,
-          "detaillierteTilgungsraten": [
-            {"startdatum": "2023-07", "enddatum": "2043-06", "rate": 4.00}
-          ],
-          "sondertilgungsrecht": 0,
-          "detaillierteSondertilgungen": [],
-          "kpdNachZinsbindung": {
-            "zins": 0.75,
-            "tilgung": 4.00
-          },
-          "tilgungsfreieMonate": 0,
-          "monatlicheAbzahlung": 182.08,
-          "restschuldNachZinsbindung": 0,
-          "voraussichtlicheLaufzeit": 20
+          "Jahr": 2021,
+          "Immobilienwert": "183.828 €",
+          "Restschuld Jahresende": "188.712 €",
+          "Sondertilgung gesamt": "7.400 €",
+          "Summe Tilgung gesamt": "12.610 €",
+          "Rate monatlich": "795 €"
+        },
+        {
+          "Jahr": 2022,
+          "Immobilienwert": "187.504 €",
+          "Restschuld Jahresende": "175.521 €",
+          "Sondertilgung gesamt": "7.400 €",
+          "Summe Tilgung gesamt": "13.191 €",
+          "Rate monatlich": "795 €"
         }
       ],
-      "summeMonatlicheAbzahlungen": 650.83
+      "ereignisse": [
+        {
+          "Monat": "2020-08",
+          "Baustein": "Bank",
+          "Ereignis": "Auszahlung Darlehen (161.000 €)"
+        },
+        {
+          "Monat": "2020-08",
+          "Baustein": "Bank",
+          "Ereignis": "Auszahlung Darlehen (42.000 €)"
+        },
+        {
+          "Monat": "2025-02",
+          "Baustein": "Eigenkapitalhilfedarlehen",
+          "Ereignis": "Tilgungsende"
+        }
+      ],
+      "grafikMonatlicheRaten": [
+        {"jahr": 2023, "zinsanteil": 220, "tilgungsanteil": 430},
+        {"jahr": 2024, "zinsanteil": 215, "tilgungsanteil": 435},
+        {"jahr": 2025, "zinsanteil": 210, "tilgungsanteil": 440}
+      ],
+      "grafikGesamtentwicklung": [
+        {"jahr": 2023, "restschuld": 196000, "immobilienwert": 200000},
+        {"jahr": 2024, "restschuld": 190000, "immobilienwert": 202000},
+        {"jahr": 2025, "restschuld": 184000, "immobilienwert": 204000}
+      ]
     }
-  ],
-  "zusammenfassungTilgungstabelle": [],
-  "ereignistabelle": [],
-  "grafikMonatlicheRaten": [
-    {"jahr": 2023, "zinsanteil": 220, "tilgungsanteil": 430},
-    {"jahr": 2024, "zinsanteil": 215, "tilgungsanteil": 435},
-    {"jahr": 2025, "zinsanteil": 210, "tilgungsanteil": 440}
-  ],
-  "grafikGesamtentwicklung": [
-    {"jahr": 2023, "restschuld": 196000, "immobilienwert": 200000},
-    {"jahr": 2024, "restschuld": 190000, "immobilienwert": 202000},
-    {"jahr": 2025, "restschuld": 184000, "immobilienwert": 204000}
   ]
 }
