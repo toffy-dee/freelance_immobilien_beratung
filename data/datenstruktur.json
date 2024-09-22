@@ -31,22 +31,21 @@
             "kreditinstitut": "Deutsche Bank",
             "darlehen": 161000,
             "auszahlungskurs": 100.00,
-            "startdatum": "2020-01",
-            "enddatum": "2038-01",
+            "startdatum": "2020-01-01",
+            "enddatum": "2038-01-01",
             "zinslaufzeit": 15,
-            "tilgungsrate": 2.00,
             "sollzins": 1.35,
-            "sollzinsbindung": "2035-01",
+            "sollzinsbindung": "2035-01-01",
             "effektivzins": 1.36,
             "sondertilgungsrecht": 5.00,
-            "detaillierteTilgungsraten": [
-              {"startdatum": "2023-07", "enddatum": "2028-06", "rate": 2.00},
-              {"startdatum": "2028-07", "enddatum": "2033-06", "rate": 2.50},
-              {"startdatum": "2033-07", "enddatum": "2038-06", "rate": 3.00}
+            "tilgungsraten": [
+              {"startDatum": "2023-07-01", "endDatum": "2028-06-30", "rate": 2.00},
+              {"startDatum": "2028-07-01", "endDatum": "2033-06-30", "rate": 2.50},
+              {"startDatum": "2033-07-01", "endDatum": "2038-06-30", "rate": 3.00}
             ],
-            "detaillierteSondertilgungen": [
-              {"jahr": 2025, "betrag": 5000},
-              {"jahr": 2030, "betrag": 10000}
+            "sondertilgungen": [
+              {"startDatum": "2025-01-01", "endDatum": null, "betrag": 5000},
+              {"startDatum": "2030-01-01", "endDatum": null, "betrag": 10000}
             ],
             "kpdNachZinsbindung": {
               "zins": 8.00,
@@ -66,16 +65,17 @@
             "kreditinstitut": "Sparkasse",
             "darlehen": 42000,
             "auszahlungskurs": 100.00,
-            "startdatum": "2020-01",
-            "enddatum": "2038-01",
+            "startdatum": "2020-01-01",
+            "enddatum": "2038-01-01",
             "zinslaufzeit": 15,
-            "tilgungsrate": 4.27,
             "sollzins": 5.59,
-            "sollzinsbindung": "2035-01",
+            "sollzinsbindung": "2035-01-01",
             "effektivzins": 5.69,
             "sondertilgungsrecht": 5.00,
-            "detaillierteTilgungsraten": [],
-            "detaillierteSondertilgungen": [],
+            "tilgungsraten": [
+              {"startDatum": "2020-01-01", "endDatum": "2038-01-01", "rate": 4.27}
+            ],
+            "sondertilgungen": [],
             "kpdNachZinsbindung": {
               "zins": 8.00,
               "tilgung": 0.00

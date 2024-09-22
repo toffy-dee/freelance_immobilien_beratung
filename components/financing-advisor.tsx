@@ -1,5 +1,6 @@
 'use client'
 
+import { useStateContext } from '@/context/StateContext';
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -51,191 +52,263 @@ const customStyles = `
   }
 `
 
+// Updated sub-types
 type Tilgungsrate = {
-  startDatum: Date;
-  endDatum: Date;
+  startDatum: string;
+  endDatum: string;
   rate: number;
 }
 
 type Sondertilgung = {
-  startDatum: Date;
-  endDatum: Date | null;
+  startDatum: string;
+  endDatum: string | null;
   betrag: number;
 }
 
 type Tranche = {
-  name: string;
-  kreditinstitut: string;
-  bruttoDarlehensbetrag: number;
-  startDatum: Date;
-  endDatum: Date;
-  zinslaufzeit: number;
-  sollzins: number;
-  tilgungsraten: Tilgungsrate[];
-  sondertilgungen: Sondertilgung[];
+  eingabe: {
+    tranchenName: string;
+    kreditinstitut: string;
+    darlehen: number;
+    startdatum: string;
+    enddatum: string;
+    zinslaufzeit: number;
+    sollzins: number;
+    tilgungsraten: Tilgungsrate[];
+    sondertilgungen: Sondertilgung[];
+  };
+  ausgabe: {
+    monatlicheAbzahlung: number;
+    restschuldNachZinsbindung: number;
+    voraussichtlicheLaufzeit: number;
+  };
 }
 
 type Variante = {
-  id: number;
+  name: string;
   tranchen: Tranche[];
 }
 
+// Updated Datenstruktur type
+type Datenstruktur = {
+  kunde: {
+    objektnutzung: string;
+    objektArt: string;
+    darlehensnehmer: string;
+  };
+  kostenaufstellung: {
+    kaufpreis: number;
+    grunderwerbssteuer: number;
+    grunderwerbssteuerPreis: number;
+    notarUndGerichtskosten: number;
+    notarUndGerichtskostenPreis: number;
+    vermittlerprovision: number;
+    vermittlerprovisionPreis: number;
+    neubaukostenUndBaunebenkosten: number;
+    sanierungskosten: number;
+    sonstiges: number;
+    eigenkapital: number;
+    eigenleistung: number;
+    gesamtaufwand: number;
+    nettoDarlehensbetrag: number;
+    risikoanalyse: number;
+  };
+  finanzierungsvarianten: Variante[];
+};
+
+type PartialTrancheUpdate = {
+  eingabe?: Partial<Tranche['eingabe']>;
+  ausgabe?: Partial<Tranche['ausgabe']>;
+};
+
 export function FinancingAdvisorComponent() {
+  const { datenstruktur, setDatenstruktur } = useStateContext();
+
   const objektArten = [  
     "ETW", "Einfamilienhaus", "Zweifamilienhaus", "Mehrfamilienhaus", "Wohn- und Geschäftshaus", "Gewerbeobjekt", "Volle Eigennutzung", "Eigennutzung und Vermietung", "Volle Vermietung"
   ];
 
-  const [varianten, setVarianten] = useState<Variante[]>([
-    {
-      id: 1,
-      tranchen: [
-        {
-          name: '',
-          kreditinstitut: '',
-          bruttoDarlehensbetrag: 0,
-          startDatum: new Date(),
-          endDatum: addYears(new Date(), 10),
-          zinslaufzeit: 10,
-          sollzins: 0,
-          tilgungsraten: [],
-          sondertilgungen: []
-        }
-      ]
-    }
-  ])
-  const [aktiveVariante, setAktiveVariante] = useState(1)
+  const [aktiveVariante, setAktiveVariante] = useState(0);
   const [neueTilgungsrate, setNeueTilgungsrate] = useState<Tilgungsrate>({
-    startDatum: new Date(),
-    endDatum: addYears(new Date(), 10),
+    startDatum: format(new Date(), 'yyyy-MM-dd'),
+    endDatum: format(addYears(new Date(), 10), 'yyyy-MM-dd'),
     rate: 0
-  })
+  });
   const [neueSondertilgung, setNeueSondertilgung] = useState<Sondertilgung>({
-    startDatum: new Date(),
+    startDatum: format(new Date(), 'yyyy-MM-dd'),
     endDatum: null,
     betrag: 0
-  })
+  });
 
+  // Update functions to work with the new data structure
   const varianteHinzufügen = () => {
-    const neueVariante: Variante = {
-      id: varianten.length + 1,
-      tranchen: [
+    setDatenstruktur(prev => ({
+      ...prev,
+      finanzierungsvarianten: [
+        ...prev.finanzierungsvarianten,
         {
-          name: '',
-          kreditinstitut: '',
-          bruttoDarlehensbetrag: 0,
-          startDatum: new Date(),
-          endDatum: addYears(new Date(), 10),
-          zinslaufzeit: 10,
-          sollzins: 0,
-          tilgungsraten: [],
-          sondertilgungen: []
-        }
-      ]
-    }
-    setVarianten([...varianten, neueVariante])
-    setAktiveVariante(neueVariante.id)
-  }
-
-  const trancheHinzufügen = (varianteId: number) => {
-    setVarianten(varianten.map(variante => 
-      variante.id === varianteId 
-        ? {
-            ...variante,
-            tranchen: [
-              ...variante.tranchen,
-              {
-                name: '',
+          name: `Variante ${prev.finanzierungsvarianten.length + 1}`,
+          tranchen: [
+            {
+              eingabe: {
+                tranchenName: '',
                 kreditinstitut: '',
-                bruttoDarlehensbetrag: 0,
-                startDatum: new Date(),
-                endDatum: addYears(new Date(), 10),
+                darlehen: 0,
+                startdatum: format(new Date(), 'yyyy-MM-dd'),
+                enddatum: format(addYears(new Date(), 10), 'yyyy-MM-dd'),
                 zinslaufzeit: 10,
                 sollzins: 0,
                 tilgungsraten: [],
-                sondertilgungen: []
-              }
-            ]
-          }
-        : variante
-    ))
-  }
+                sondertilgungen: [],
+              },
+              ausgabe: {
+                monatlicheAbzahlung: 0,
+                restschuldNachZinsbindung: 0,
+                voraussichtlicheLaufzeit: 0,
+              },
+            },
+          ],
+        },
+      ],
+    }));
+    setAktiveVariante(datenstruktur.finanzierungsvarianten.length);
+  };
 
-  const tilgungsrateHinzufügen = (varianteId: number, trancheIndex: number) => {
-    setVarianten(varianten.map(variante => 
-      variante.id === varianteId 
-        ? {
-            ...variante,
-            tranchen: variante.tranchen.map((tranche, index) => 
-              index === trancheIndex
-                ? {
-                    ...tranche,
-                    tilgungsraten: [
-                      ...tranche.tilgungsraten.map(rate => ({
-                        ...rate,
-                        endDatum: subMonths(neueTilgungsrate.startDatum, 1)
-                      })),
-                      neueTilgungsrate
-                    ].sort((a, b) => a.startDatum.getTime() - b.startDatum.getTime())
-                  }
-                : tranche
-            )
-          }
-        : variante
-    ))
-    setNeueTilgungsrate({
-      startDatum: new Date(),
-      endDatum: addYears(new Date(), 10),
-      rate: 0
-    })
-  }
+  const trancheHinzufügen = (varianteIndex: number) => {
+    setDatenstruktur(prev => ({
+      ...prev,
+      finanzierungsvarianten: prev.finanzierungsvarianten.map((variante, index) =>
+        index === varianteIndex
+          ? {
+              ...variante,
+              tranchen: [
+                ...variante.tranchen,
+                {
+                  eingabe: {
+                    tranchenName: '',
+                    kreditinstitut: '',
+                    darlehen: 0,
+                    startdatum: format(new Date(), 'yyyy-MM-dd'),
+                    enddatum: format(addYears(new Date(), 10), 'yyyy-MM-dd'),
+                    zinslaufzeit: 10,
+                    sollzins: 0,
+                    tilgungsraten: [],
+                    sondertilgungen: [],
+                  },
+                  ausgabe: {
+                    monatlicheAbzahlung: 0,
+                    restschuldNachZinsbindung: 0,
+                    voraussichtlicheLaufzeit: 0,
+                  },
+                },
+              ],
+            }
+          : variante
+      ),
+    }));
+  };
 
-  const sondertilgungHinzufügen = (varianteId: number, trancheIndex: number) => {
-    setVarianten(varianten.map(variante => 
-      variante.id === varianteId 
-        ? {
-            ...variante,
-            tranchen: variante.tranchen.map((tranche, index) => 
-              index === trancheIndex
-                ? {
-                    ...tranche,
-                    sondertilgungen: [
-                      ...tranche.sondertilgungen.map(tilgung => ({
-                        ...tilgung,
-                        endDatum: subMonths(neueSondertilgung.startDatum, 1)
-                      })),
-                      {
-                        ...neueSondertilgung,
-                        betrag: Math.min(Math.floor(neueSondertilgung.betrag), tranche.bruttoDarlehensbetrag),
-                        endDatum: neueSondertilgung.endDatum || tranche.endDatum
+  const tilgungsrateHinzufügen = (varianteIndex: number, trancheIndex: number) => {
+    setDatenstruktur(prev => ({
+      ...prev,
+      finanzierungsvarianten: prev.finanzierungsvarianten.map((variante, varianteIdx) =>
+        varianteIdx === varianteIndex
+          ? {
+              ...variante,
+              tranchen: variante.tranchen.map((tranche, trancheIdx) =>
+                trancheIdx === trancheIndex
+                  ? {
+                      ...tranche,
+                      eingabe: {
+                        ...tranche.eingabe,
+                        tilgungsraten: [
+                          ...tranche.eingabe.tilgungsraten.map(rate => ({
+                            ...rate,
+                            endDatum: subMonths(new Date(neueTilgungsrate.startDatum), 1).toISOString().split('T')[0]
+                          })),
+                          neueTilgungsrate
+                        ].sort((a, b) => new Date(a.startDatum).getTime() - new Date(b.startDatum).getTime())
                       }
-                    ].sort((a, b) => a.startDatum.getTime() - b.startDatum.getTime())
-                  }
-                : tranche
-            )
-          }
-        : variante
-    ))
+                    }
+                  : tranche
+              )
+            }
+          : variante
+      )
+    }));
+    setNeueTilgungsrate({
+      startDatum: format(new Date(), 'yyyy-MM-dd'),
+      endDatum: format(addYears(new Date(), 10), 'yyyy-MM-dd'),
+      rate: 0
+    });
+  };
+
+  const sondertilgungHinzufügen = (varianteIndex: number, trancheIndex: number) => {
+    setDatenstruktur(prev => ({
+      ...prev,
+      finanzierungsvarianten: prev.finanzierungsvarianten.map((variante, varianteIdx) =>
+        varianteIdx === varianteIndex
+          ? {
+              ...variante,
+              tranchen: variante.tranchen.map((tranche, trancheIdx) =>
+                trancheIdx === trancheIndex
+                  ? {
+                      ...tranche,
+                      eingabe: {
+                        ...tranche.eingabe,
+                        sondertilgungen: [
+                          ...tranche.eingabe.sondertilgungen.map(tilgung => ({
+                            ...tilgung,
+                            endDatum: subMonths(new Date(neueSondertilgung.startDatum), 1).toISOString().split('T')[0]
+                          })),
+                          {
+                            ...neueSondertilgung,
+                            betrag: Math.min(Math.floor(neueSondertilgung.betrag), tranche.eingabe.darlehen),
+                            endDatum: neueSondertilgung.endDatum || tranche.eingabe.enddatum
+                          }
+                        ].sort((a, b) => new Date(a.startDatum).getTime() - new Date(b.startDatum).getTime())
+                      }
+                    }
+                  : tranche
+              )
+            }
+          : variante
+      )
+    }));
     setNeueSondertilgung({
-      startDatum: new Date(),
+      startDatum: format(new Date(), 'yyyy-MM-dd'),
       endDatum: null,
       betrag: 0
-    })
-  }
+    });
+  };
 
-  const updateTranche = (varianteId: number, trancheIndex: number, updatedTranche: Partial<Tranche>) => {
-    setVarianten(varianten.map(variante => 
-      variante.id === varianteId 
-        ? {
-            ...variante,
-            tranchen: variante.tranchen.map((tranche, index) => 
-              index === trancheIndex
-                ? { ...tranche, ...updatedTranche }
-                : tranche
-            )
-          }
-        : variante
-    ))
-  }
+  const updateTranche = (varianteIndex: number, trancheIndex: number, updatedTranche: PartialTrancheUpdate) => {
+    setDatenstruktur(prev => ({
+      ...prev,
+      finanzierungsvarianten: prev.finanzierungsvarianten.map((variante, varianteIdx) =>
+        varianteIdx === varianteIndex
+          ? {
+              ...variante,
+              tranchen: variante.tranchen.map((tranche, trancheIdx) =>
+                trancheIdx === trancheIndex
+                  ? {
+                      ...tranche,
+                      eingabe: {
+                        ...tranche.eingabe,
+                        ...(updatedTranche.eingabe || {}),
+                      },
+                      ausgabe: {
+                        ...tranche.ausgabe,
+                        ...(updatedTranche.ausgabe || {}),
+                      },
+                    }
+                  : tranche
+              )
+            }
+          : variante
+      )
+    }));
+  };
 
   const handleDateChange = (value: string, setter: (date: Date) => void) => {
     const parsedDate = parse(value, 'dd.MM.yyyy', new Date())
@@ -243,6 +316,20 @@ export function FinancingAdvisorComponent() {
       setter(parsedDate)
     }
   }
+
+  // Update the updateDatenstruktur function
+  const updateDatenstruktur = (path: string, value: any) => {
+    setDatenstruktur(prevState => {
+      const newState = JSON.parse(JSON.stringify(prevState));
+      const pathArray = path.split('.');
+      let current = newState;
+      for (let i = 0; i < pathArray.length - 1; i++) {
+        current = current[pathArray[i]];
+      }
+      current[pathArray[pathArray.length - 1]] = value;
+      return newState;
+    });
+  };
 
   const generatePDF = () => {
     const doc = new jsPDF();
@@ -319,11 +406,19 @@ export function FinancingAdvisorComponent() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <Label htmlFor="kundenName">Name des Kunden:</Label>
-                  <Input id="kundenName" placeholder="Name eingeben" />
+                  <Input 
+                    id="kundenName" 
+                    value={datenstruktur.kunde.darlehensnehmer} 
+                    onChange={(e) => updateDatenstruktur('kunde.darlehensnehmer', e.target.value)}
+                    placeholder="Name eingeben" 
+                  />
                 </div>
                 <div>
                   <Label htmlFor="objektart">Objektart:</Label>
-                  <Select>
+                  <Select 
+                    value={datenstruktur.kunde.objektArt}
+                    onValueChange={(value) => updateDatenstruktur('kunde.objektArt', value)}
+                  >
                     <SelectTrigger id="objektart">
                       <SelectValue placeholder="Typ auswählen" />
                     </SelectTrigger>
@@ -336,7 +431,10 @@ export function FinancingAdvisorComponent() {
                 </div>
                 <div>
                   <Label htmlFor="nutzung">Art der Objektnutzung:</Label>
-                  <Select>
+                  <Select 
+                    value={datenstruktur.kunde.objektnutzung}
+                    onValueChange={(value) => updateDatenstruktur('kunde.objektnutzung', value)}
+                  >
                     <SelectTrigger id="nutzung">
                       <SelectValue placeholder="Nutzung auswählen" />
                     </SelectTrigger>
@@ -359,29 +457,53 @@ export function FinancingAdvisorComponent() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                   <Label htmlFor="kaufpreis">Kaufpreis:</Label>
-                  <Input id="kaufpreis" type="text" placeholder="0,00 €" />
+                  <Input 
+                    id="kaufpreis" 
+                    type="number" 
+                    value={datenstruktur.kostenaufstellung.kaufpreis} 
+                    onChange={(e) => updateDatenstruktur('kostenaufstellung.kaufpreis', Number(e.target.value))}
+                    placeholder="0,00 €" 
+                  />
                 </div>
                 <div>
                   <Label htmlFor="grunderwerbssteuer">Grunderwerbssteuer:</Label>
-                  <Input id="grunderwerbssteuer" type="text" placeholder="6,00 %" />
+                  <Input 
+                    id="grunderwerbssteuer" 
+                    type="number" 
+                    value={datenstruktur.kostenaufstellung.grunderwerbssteuer} 
+                    onChange={(e) => updateDatenstruktur('kostenaufstellung.grunderwerbssteuer', Number(e.target.value))}
+                    placeholder="6,00 %" 
+                  />
                 </div>
                 <div>
                   <Label htmlFor="notarkosten">Notar- und Gerichtskosten:</Label>
-                  <Input id="notarkosten" type="text" placeholder="2,00 %" />
+                  <Input 
+                    id="notarkosten" 
+                    type="number" 
+                    value={datenstruktur.kostenaufstellung.notarUndGerichtskosten} 
+                    onChange={(e) => updateDatenstruktur('kostenaufstellung.notarUndGerichtskosten', Number(e.target.value))}
+                    placeholder="2,00 %" 
+                  />
                 </div>
                 <div>
                   <Label htmlFor="eigenkapital">Eigenkapital:</Label>
-                  <Input id="eigenkapital" type="text" placeholder="971,00 €" />
+                  <Input 
+                    id="eigenkapital" 
+                    type="number" 
+                    value={datenstruktur.kostenaufstellung.eigenkapital} 
+                    onChange={(e) => updateDatenstruktur('kostenaufstellung.eigenkapital', Number(e.target.value))}
+                    placeholder="971,00 €" 
+                  />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                 <div>
                   <Label>Gesamtaufwand:</Label>
-                  <Input readOnly value="203.971,00 €" />
+                  <Input readOnly value={`${datenstruktur.kostenaufstellung.gesamtaufwand.toFixed(2)} €`} />
                 </div>
                 <div>
                   <Label>Netto-Darlehensbetrag:</Label>
-                  <Input readOnly value="203.000,00 €" />
+                  <Input readOnly value={`${datenstruktur.kostenaufstellung.nettoDarlehensbetrag.toFixed(2)} €`} />
                 </div>
               </div>
             </CardContent>
@@ -398,15 +520,15 @@ export function FinancingAdvisorComponent() {
             <CardContent>
               <Tabs value={`variante-${aktiveVariante}`} onValueChange={(value) => setAktiveVariante(Number(value.split('-')[1]))}>
                 <TabsList>
-                  {varianten.map((variante) => (
-                    <TabsTrigger key={variante.id} value={`variante-${variante.id}`}>
-                      Variante {variante.id}
+                  {datenstruktur.finanzierungsvarianten.map((variante, index) => (
+                    <TabsTrigger key={index} value={`variante-${index}`}>
+                      {variante.name}
                     </TabsTrigger>
                   ))}
                   <Button variant="outline" onClick={varianteHinzufügen}>+</Button>
                 </TabsList>
-                {varianten.map((variante) => (
-                  <TabsContent key={variante.id} value={`variante-${variante.id}`}>
+                {datenstruktur.finanzierungsvarianten.map((variante, varianteIndex) => (
+                  <TabsContent key={varianteIndex} value={`variante-${varianteIndex}`}>
                     <div className="space-y-4">
                       {variante.tranchen.map((tranche, trancheIndex) => (
                         <Card key={trancheIndex}>
@@ -420,8 +542,8 @@ export function FinancingAdvisorComponent() {
                                   <Label htmlFor={`trancheName-${trancheIndex}`}>Name der Tranche:</Label>
                                   <Input
                                     id={`trancheName-${trancheIndex}`}
-                                    value={tranche.name}
-                                    onChange={(e) => updateTranche(variante.id, trancheIndex, { name: e.target.value })}
+                                    value={tranche.eingabe.tranchenName}
+                                    onChange={(e) => updateTranche(varianteIndex, trancheIndex, { eingabe: { tranchenName: e.target.value } })}
                                     placeholder="Name eingeben"
                                   />
                                 </div>
@@ -429,8 +551,8 @@ export function FinancingAdvisorComponent() {
                                   <Label htmlFor={`institut-${trancheIndex}`}>Name des Kreditinstitutes:</Label>
                                   <Input
                                     id={`institut-${trancheIndex}`}
-                                    value={tranche.kreditinstitut}
-                                    onChange={(e) => updateTranche(variante.id, trancheIndex, { kreditinstitut: e.target.value })}
+                                    value={tranche.eingabe.kreditinstitut}
+                                    onChange={(e) => updateTranche(varianteIndex, trancheIndex, { eingabe: { kreditinstitut: e.target.value } })}
                                     placeholder="z.B. Deutsche Bank"
                                   />
                                 </div>
@@ -439,8 +561,8 @@ export function FinancingAdvisorComponent() {
                                   <Input
                                     id={`betrag-${trancheIndex}`}
                                     type="number"
-                                    value={tranche.bruttoDarlehensbetrag}
-                                    onChange={(e) => updateTranche(variante.id, trancheIndex, { bruttoDarlehensbetrag: Number(e.target.value) })}
+                                    value={tranche.eingabe.darlehen}
+                                    onChange={(e) => updateTranche(varianteIndex, trancheIndex, { eingabe: { darlehen: Number(e.target.value) } })}
                                     placeholder="0,00 €"
                                   />
                                 </div>
@@ -449,8 +571,8 @@ export function FinancingAdvisorComponent() {
                                   <div className="flex items-center space-x-2">
                                     <Input
                                       type="text"
-                                      value={format(tranche.startDatum, "dd.MM.yyyy")}
-                                      onChange={(e) => handleDateChange(e.target.value, (date) => updateTranche(variante.id, trancheIndex, { startDatum: date }))}
+                                      value={format(new Date(tranche.eingabe.startdatum), "dd.MM.yyyy")}
+                                      onChange={(e) => handleDateChange(e.target.value, (date) => updateTranche(varianteIndex, trancheIndex, { eingabe: { startdatum: date.toISOString().split('T')[0] } }))}
                                       placeholder="TT.MM.JJJJ"
                                     />
                                     <Popover>
@@ -462,8 +584,8 @@ export function FinancingAdvisorComponent() {
                                       <PopoverContent className="w-auto p-0">
                                         <Calendar
                                           mode="single"
-                                          selected={tranche.startDatum}
-                                          onSelect={(date) => updateTranche(variante.id, trancheIndex, { startDatum: date || new Date() })}
+                                          selected={new Date(tranche.eingabe.startdatum)}
+                                          onSelect={(date) => updateTranche(varianteIndex, trancheIndex, { eingabe: { startdatum: date?.toISOString().split('T')[0] || format(new Date(), 'yyyy-MM-dd') } })}
                                           initialFocus
                                         />
                                       </PopoverContent>
@@ -475,8 +597,8 @@ export function FinancingAdvisorComponent() {
                                   <div className="flex items-center space-x-2">
                                     <Input
                                       type="text"
-                                      value={format(tranche.endDatum, "dd.MM.yyyy")}
-                                      onChange={(e) => handleDateChange(e.target.value, (date) => updateTranche(variante.id, trancheIndex, { endDatum: date }))}
+                                      value={format(new Date(tranche.eingabe.enddatum), "dd.MM.yyyy")}
+                                      onChange={(e) => handleDateChange(e.target.value, (date) => updateTranche(varianteIndex, trancheIndex, { eingabe: { enddatum: date.toISOString().split('T')[0] } }))}
                                       placeholder="TT.MM.JJJJ"
                                     />
                                     <Popover>
@@ -488,8 +610,8 @@ export function FinancingAdvisorComponent() {
                                       <PopoverContent className="w-auto p-0">
                                         <Calendar
                                           mode="single"
-                                          selected={tranche.endDatum}
-                                          onSelect={(date) => updateTranche(variante.id, trancheIndex, { endDatum: date || addYears(new Date(), 10) })}
+                                          selected={new Date(tranche.eingabe.enddatum)}
+                                          onSelect={(date) => updateTranche(varianteIndex, trancheIndex, { eingabe: { enddatum: date?.toISOString().split('T')[0] || format(addYears(new Date(), 10), 'yyyy-MM-dd') } })}
                                           initialFocus
                                         />
                                       </PopoverContent>
@@ -501,8 +623,8 @@ export function FinancingAdvisorComponent() {
                                   <Input
                                     id={`zinslaufzeit-${trancheIndex}`}
                                     type="number"
-                                    value={tranche.zinslaufzeit}
-                                    onChange={(e) => updateTranche(variante.id, trancheIndex, { zinslaufzeit: Number(e.target.value) })}
+                                    value={tranche.eingabe.zinslaufzeit}
+                                    onChange={(e) => updateTranche(varianteIndex, trancheIndex, { eingabe: { zinslaufzeit: Number(e.target.value) } })}
                                     placeholder="15"
                                   />
                                   <span className="text-sm text-gray-500 ml-2">Jahre</span>
@@ -513,8 +635,8 @@ export function FinancingAdvisorComponent() {
                                     id={`sollzins-${trancheIndex}`}
                                     type="number"
                                     step="0.01"
-                                    value={tranche.sollzins}
-                                    onChange={(e) => updateTranche(variante.id, trancheIndex, { sollzins: Number(e.target.value) })}
+                                    value={tranche.eingabe.sollzins}
+                                    onChange={(e) => updateTranche(varianteIndex, trancheIndex, { eingabe: { sollzins: Number(e.target.value) } })}
                                     placeholder="1,35"
                                   />
                                   <span className="text-sm text-gray-500 ml-2">%</span>
@@ -536,8 +658,8 @@ export function FinancingAdvisorComponent() {
                                             <div className="flex items-center space-x-2">
                                               <Input
                                                 type="text"
-                                                value={format(neueTilgungsrate.startDatum, "dd.MM.yyyy")}
-                                                onChange={(e) => handleDateChange(e.target.value, (date) => setNeueTilgungsrate({...neueTilgungsrate, startDatum: date}))}
+                                                value={format(new Date(neueTilgungsrate.startDatum), "dd.MM.yyyy")}
+                                                onChange={(e) => handleDateChange(e.target.value, (date) => setNeueTilgungsrate({...neueTilgungsrate, startDatum: date.toISOString().split('T')[0]}))}
                                                 placeholder="TT.MM.JJJJ"
                                               />
                                               <Popover>
@@ -549,8 +671,8 @@ export function FinancingAdvisorComponent() {
                                                 <PopoverContent className="w-auto p-0">
                                                   <Calendar
                                                     mode="single"
-                                                    selected={neueTilgungsrate.startDatum}
-                                                    onSelect={(date) => setNeueTilgungsrate({...neueTilgungsrate, startDatum: date || new Date()})}
+                                                    selected={new Date(neueTilgungsrate.startDatum)}
+                                                    onSelect={(date) => setNeueTilgungsrate({...neueTilgungsrate, startDatum: date?.toISOString().split('T')[0] || format(new Date(), 'yyyy-MM-dd')})}
                                                     initialFocus
                                                   />
                                                 </PopoverContent>
@@ -562,8 +684,8 @@ export function FinancingAdvisorComponent() {
                                             <div className="flex items-center space-x-2">
                                               <Input
                                                 type="text"
-                                                value={format(neueTilgungsrate.endDatum, "dd.MM.yyyy")}
-                                                onChange={(e) => handleDateChange(e.target.value, (date) => setNeueTilgungsrate({...neueTilgungsrate, endDatum: date}))}
+                                                value={format(new Date(neueTilgungsrate.endDatum), "dd.MM.yyyy")}
+                                                onChange={(e) => handleDateChange(e.target.value, (date) => setNeueTilgungsrate({...neueTilgungsrate, endDatum: date.toISOString().split('T')[0]}))}
                                                 placeholder="TT.MM.JJJJ"
                                               />
                                               <Popover>
@@ -575,8 +697,8 @@ export function FinancingAdvisorComponent() {
                                                 <PopoverContent className="w-auto p-0">
                                                   <Calendar
                                                     mode="single"
-                                                    selected={neueTilgungsrate.endDatum}
-                                                    onSelect={(date) => setNeueTilgungsrate({...neueTilgungsrate, endDatum: date || addYears(new Date(), 10)})}
+                                                    selected={new Date(neueTilgungsrate.endDatum)}
+                                                    onSelect={(date) => setNeueTilgungsrate({...neueTilgungsrate, endDatum: date?.toISOString().split('T')[0] || format(addYears(new Date(), 10), 'yyyy-MM-dd')})}
                                                     initialFocus
                                                   />
                                                 </PopoverContent>
@@ -596,14 +718,14 @@ export function FinancingAdvisorComponent() {
                                             <span className="text-sm text-gray-500 ml-2">%</span>
                                           </div>
                                         </div>
-                                        <Button onClick={() => tilgungsrateHinzufügen(variante.id, trancheIndex)}>Zeitraum hinzufügen</Button>
+                                        <Button onClick={() => tilgungsrateHinzufügen(varianteIndex, trancheIndex)}>Zeitraum hinzufügen</Button>
                                       </div>
                                     </DialogContent>
                                   </Dialog>
                                   <div className="mt-2 space-y-2">
-                                    {tranche.tilgungsraten.map((rate, index) => (
+                                    {tranche.eingabe.tilgungsraten.map((rate, index) => (
                                       <div key={index} className="text-sm">
-                                        <span>{format(rate.startDatum, "dd.MM.yyyy")} - {format(rate.endDatum, "dd.MM.yyyy")}: </span>
+                                        <span>{format(new Date(rate.startDatum), "dd.MM.yyyy")} - {format(new Date(rate.endDatum), "dd.MM.yyyy")}: </span>
                                         <span className="font-semibold">{rate.rate.toFixed(2)} %</span>
                                       </div>
                                     ))}
@@ -625,8 +747,8 @@ export function FinancingAdvisorComponent() {
                                           <div className="flex items-center space-x-2">
                                             <Input
                                               type="text"
-                                              value={format(neueSondertilgung.startDatum, "dd.MM.yyyy")}
-                                              onChange={(e) => handleDateChange(e.target.value, (date) => setNeueSondertilgung({...neueSondertilgung, startDatum: date}))}
+                                              value={format(new Date(neueSondertilgung.startDatum), "dd.MM.yyyy")}
+                                              onChange={(e) => handleDateChange(e.target.value, (date) => setNeueSondertilgung({...neueSondertilgung, startDatum: date.toISOString().split('T')[0]}))}
                                               placeholder="TT.MM.JJJJ"
                                             />
                                             <Popover>
@@ -638,8 +760,8 @@ export function FinancingAdvisorComponent() {
                                               <PopoverContent className="w-auto p-0">
                                                 <Calendar
                                                   mode="single"
-                                                  selected={neueSondertilgung.startDatum}
-                                                  onSelect={(date) => setNeueSondertilgung({...neueSondertilgung, startDatum: date || new Date()})}
+                                                  selected={new Date(neueSondertilgung.startDatum)}
+                                                  onSelect={(date) => setNeueSondertilgung({...neueSondertilgung, startDatum: date?.toISOString().split('T')[0] || format(new Date(), 'yyyy-MM-dd')})}
                                                   initialFocus
                                                 />
                                               </PopoverContent>
@@ -651,8 +773,8 @@ export function FinancingAdvisorComponent() {
                                           <div className="flex items-center space-x-2">
                                             <Input
                                               type="text"
-                                              value={neueSondertilgung.endDatum ? format(neueSondertilgung.endDatum, "dd.MM.yyyy") : ""}
-                                              onChange={(e) => handleDateChange(e.target.value, (date) => setNeueSondertilgung({...neueSondertilgung, endDatum: date}))}
+                                              value={neueSondertilgung.endDatum ? format(new Date(neueSondertilgung.endDatum), "dd.MM.yyyy") : ""}
+                                              onChange={(e) => handleDateChange(e.target.value, (date) => setNeueSondertilgung({...neueSondertilgung, endDatum: date.toISOString().split('T')[0]}))}
                                               placeholder="TT.MM.JJJJ"
                                             />
                                             <Popover>
@@ -664,8 +786,8 @@ export function FinancingAdvisorComponent() {
                                               <PopoverContent className="w-auto p-0">
                                                 <Calendar
                                                   mode="single"
-                                                  selected={neueSondertilgung.endDatum || undefined}
-                                                  onSelect={(date) => setNeueSondertilgung({...neueSondertilgung, endDatum: date || null})}
+                                                  selected={neueSondertilgung.endDatum ? new Date(neueSondertilgung.endDatum) : undefined}
+                                                  onSelect={(date) => setNeueSondertilgung({...neueSondertilgung, endDatum: date?.toISOString().split('T')[0] || null})}
                                                   initialFocus
                                                 />
                                               </PopoverContent>
@@ -683,14 +805,14 @@ export function FinancingAdvisorComponent() {
                                           />
                                           <span className="text-sm text-gray-500 ml-2">€</span>
                                         </div>
-                                        <Button onClick={() => sondertilgungHinzufügen(variante.id, trancheIndex)}>Sondertilgung hinzufügen</Button>
+                                        <Button onClick={() => sondertilgungHinzufügen(varianteIndex, trancheIndex)}>Sondertilgung hinzufügen</Button>
                                       </div>
                                     </DialogContent>
                                   </Dialog>
                                   <div className="mt-2 space-y-2">
-                                    {tranche.sondertilgungen.map((sondertilgung, index) => (
+                                    {tranche.eingabe.sondertilgungen.map((sondertilgung, index) => (
                                       <div key={index} className="text-sm">
-                                        <span>{format(sondertilgung.startDatum, "dd.MM.yyyy")} - {sondertilgung.endDatum ? format(sondertilgung.endDatum, "dd.MM.yyyy") : "Ende der Finanzierung"}: </span>
+                                        <span>{format(new Date(sondertilgung.startDatum), "dd.MM.yyyy")} - {sondertilgung.endDatum ? format(new Date(sondertilgung.endDatum), "dd.MM.yyyy") : "Ende der Finanzierung"}: </span>
                                         <span className="font-semibold">{sondertilgung.betrag} €</span>
                                       </div>
                                     ))}
@@ -700,22 +822,22 @@ export function FinancingAdvisorComponent() {
                               <div className="space-y-4 bg-muted p-4 rounded-lg">
                                 <div>
                                   <Label>Monatliche Abzahlung:</Label>
-                                  <Input readOnly value="449,46 €" />
+                                  <Input readOnly value={`${tranche.ausgabe.monatlicheAbzahlung.toFixed(2)} €`} />
                                 </div>
                                 <div>
                                   <Label>Restschuld nach Zinsbindung:</Label>
-                                  <Input readOnly value="107.495,35 €" />
+                                  <Input readOnly value={`${tranche.ausgabe.restschuldNachZinsbindung.toFixed(2)} €`} />
                                 </div>
                                 <div>
                                   <Label>Voraussichtliche Laufzeit:</Label>
-                                  <Input readOnly value="38,2 Jahre" />
+                                  <Input readOnly value={`${tranche.ausgabe.voraussichtlicheLaufzeit.toFixed(1)} Jahre`} />
                                 </div>
                               </div>
                             </div>
                           </CardContent>
                         </Card>
                       ))}
-                      <Button onClick={() => trancheHinzufügen(variante.id)}>Tranche hinzufügen</Button>
+                      <Button onClick={() => trancheHinzufügen(varianteIndex)}>Tranche hinzufügen</Button>
                     </div>
                   </TabsContent>
                 ))}
