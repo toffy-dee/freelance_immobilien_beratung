@@ -1,0 +1,99 @@
+{
+  "Grafik Monatliche Raten": [
+    {
+      "Jahr": 2020,
+      "Zinsanteil": "300 €",
+      "Tilgungsanteil": "495 €"
+    },
+    {
+      "Jahr": 2021,
+      "Zinsanteil": "280 €",
+      "Tilgungsanteil": "515 €"
+    },
+    {
+      "Jahr": 2022,
+      "Zinsanteil": "260 €",
+      "Tilgungsanteil": "535 €"
+    },
+    {
+      "Jahr": 2023,
+      "Zinsanteil": "240 €",
+      "Tilgungsanteil": "555 €"
+    },
+    {
+      "Jahr": 2024,
+      "Zinsanteil": "220 €",
+      "Tilgungsanteil": "575 €"
+    },
+    {
+      "Jahr": 2025,
+      "Zinsanteil": "200 €",
+      "Tilgungsanteil": "302 €"
+    },
+    {
+      "Jahr": 2026,
+      "Zinsanteil": "180 €",
+      "Tilgungsanteil": "269 €"
+    },
+    {
+      "Jahr": 2027,
+      "Zinsanteil": "160 €",
+      "Tilgungsanteil": "289 €"
+    },
+    {
+      "Jahr": 2028,
+      "Zinsanteil": "140 €",
+      "Tilgungsanteil": "309 €"
+    },
+    {
+      "Jahr": 2029,
+      "Zinsanteil": "120 €",
+      "Tilgungsanteil": "329 €"
+    },
+    {
+      "Jahr": 2030,
+      "Zinsanteil": "100 €",
+      "Tilgungsanteil": "349 €"
+    },
+    {
+      "Jahr": 2031,
+      "Zinsanteil": "90 €",
+      "Tilgungsanteil": "359 €"
+    },
+    {
+      "Jahr": 2032,
+      "Zinsanteil": "80 €",
+      "Tilgungsanteil": "369 €"
+    },
+    {
+      "Jahr": 2033,
+      "Zinsanteil": "70 €",
+      "Tilgungsanteil": "379 €"
+    },
+    {
+      "Jahr": 2034,
+      "Zinsanteil": "60 €",
+      "Tilgungsanteil": "389 €"
+    },
+    {
+      "Jahr": 2035,
+      "Zinsanteil": "50 €",
+      "Tilgungsanteil": "399 €"
+    },
+    {
+      "Jahr": 2036,
+      "Zinsanteil": "230 €",
+      "Tilgungsanteil": "366 €"
+    },
+    {
+      "Jahr": 2037,
+      "Zinsanteil": "220 €",
+      "Tilgungsanteil": "376 €"
+    },
+    {
+      "Jahr": 2038,
+      "Zinsanteil": "50 €",
+      "Tilgungsanteil": "546 €"
+    }
+  ]
+}

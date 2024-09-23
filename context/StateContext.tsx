@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import initialDatenstruktur from '@/data/datenstruktur.json';
+import initialDatenstruktur from '@/data/datenstrukturWithDummyData.json';
 import { Datenstruktur } from '@/types/datenstruktur'; // You might need to create this type file
 
 interface StateContextType {

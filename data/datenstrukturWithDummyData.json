@@ -1,0 +1,187 @@
+{
+  "kunde": {
+    "objektnutzung": "Volle Eigennutzung",
+    "objektArt": "Einfamilienhaus",
+    "darlehensnehmer": "Max Mustermann"
+  },
+  "kostenaufstellung": {
+    "kaufpreis": 179000,
+    "grunderwerbssteuer": 6.00,
+    "grunderwerbssteuerPreis": 10740,
+    "notarUndGerichtskosten": 2.00,
+    "notarUndGerichtskostenPreis": 3580,
+    "vermittlerprovision": 5.95,
+    "vermittlerprovisionPreis": 10651,
+    "neubaukostenUndBaunebenkosten": 0.00,
+    "sanierungskosten": 0,
+    "sonstiges": 0,
+    "eigenkapital": 971,
+    "eigenleistung": 0, 
+    "gesamtaufwand": 203971,
+    "nettoDarlehensbetrag": 203000,
+    "risikoanalyse": 113.41
+  },
+  "finanzierungsvarianten": [
+    {
+      "name": "Variante 1",
+      "tranchen": [
+        {
+          "eingabe": {
+            "tranchenName": "Festzinsdarlehen",
+            "kreditinstitut": "Deutsche Bank",
+            "darlehen": 161000,
+            "auszahlungskurs": 100.00,
+            "startdatum": "2020-01",
+            "enddatum": "2038-01",
+            "zinslaufzeit": 15,
+            "sollzins": 1.35,
+            "sollzinsbindung": "2035-01",
+            "effektivzins": 1.36,
+            "sondertilgungsrecht": 5.00,
+            "tilgungsraten": [
+              {"startdatum": "2023-07", "enddatum": "2028-06", "rate": 2.00},
+              {"startdatum": "2028-07", "enddatum": "2033-06", "rate": 2.50},
+              {"startdatum": "2033-07", "enddatum": "2038-06", "rate": 3.00}
+            ],
+            "sondertilgungen": [
+              {"datum": "2020-01",  "betrag": 1000},
+              {"datum": "2021-01",  "betrag": 1500},
+              {"datum": "2022-01",  "betrag": 2000},
+              {"datum": "2023-01",  "betrag": 2500},
+              {"datum": "2024-01",  "betrag": 3000},
+              {"datum": "2025-01",  "betrag": 3500},
+              {"datum": "2026-01",  "betrag": 4000},
+              {"datum": "2027-01",  "betrag": 4500},
+              {"datum": "2028-01",  "betrag": 5000},
+              {"datum": "2029-01",  "betrag": 5500},
+              {"datum": "2030-01",  "betrag": 6000},
+              {"datum": "2031-01",  "betrag": 6500},
+              {"datum": "2032-01",  "betrag": 7000},
+              {"datum": "2033-01",  "betrag": 7500},
+              {"datum": "2034-01",  "betrag": 8000},
+              {"datum": "2035-01",  "betrag": 8500},
+              {"datum": "2036-01",  "betrag": 9000},
+              {"datum": "2037-01",  "betrag": 9500},
+              {"datum": "2038-01",  "betrag": 10000}
+            ],
+            "kpdNachZinsbindung": {
+              "zins": 8.00,
+              "tilgung": 0.00
+            },
+            "tilgungsfreieMonate": 0
+          },
+          "ausgabe": {
+            "monatlicheAbzahlung": 449.46,
+            "restschuldNachZinsbindung": 107495.35,
+            "voraussichtlicheLaufzeit": 38.2
+          }
+        },
+        {
+          "eingabe": {
+            "tranchenName": "Nachrangdarlehen",
+            "kreditinstitut": "Sparkasse",
+            "darlehen": 42000,
+            "auszahlungskurs": 100.00,
+            "startdatum": "2020-01",
+            "enddatum": "2038-01",
+            "zinslaufzeit": 15,
+            "sollzins": 5.59,
+            "sollzinsbindung": "2035-01",
+            "effektivzins": 5.69,
+            "sondertilgungsrecht": 5.00,
+            "tilgungsraten": [
+              {"startdatum": "2020-01", "enddatum": "2038-01", "rate": 4.27}
+            ],
+            "sondertilgungen": [
+              {"datum": "2020-01",  "betrag": 500},
+              {"datum": "2021-01",  "betrag": 750},
+              {"datum": "2022-01",  "betrag": 1000},
+              {"datum": "2023-01",  "betrag": 1250},
+              {"datum": "2024-01",  "betrag": 1500},
+              {"datum": "2025-01",  "betrag": 1750},
+              {"datum": "2026-01",  "betrag": 2000},
+              {"datum": "2027-01",  "betrag": 2250},
+              {"datum": "2028-01",  "betrag": 2500},
+              {"datum": "2029-01",  "betrag": 2750},
+              {"datum": "2030-01",  "betrag": 3000},
+              {"datum": "2031-01",  "betrag": 3250},
+              {"datum": "2032-01",  "betrag": 3500},
+              {"datum": "2033-01",  "betrag": 3750},
+              {"datum": "2034-01",  "betrag": 4000},
+              {"datum": "2035-01",  "betrag": 4250},
+              {"datum": "2036-01",  "betrag": 4500},
+              {"datum": "2037-01",  "betrag": 4750},
+              {"datum": "2038-01",  "betrag": 5000}
+            ],
+            "kpdNachZinsbindung": {
+              "zins": 8.00,
+              "tilgung": 0.00
+            },
+            "tilgungsfreieMonate": 12
+          },
+          "ausgabe": {
+            "monatlicheAbzahlung": 345.24,
+            "restschuldNachZinsbindung": 33974.43,
+            "voraussichtlicheLaufzeit": 16.0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Variante 2",
+      "tranchen": [
+        {
+          "eingabe": {
+            "tranchenName": "Annuitätendarlehen",
+            "kreditinstitut": "Commerzbank",
+            "darlehen": 203000,
+            "auszahlungskurs": 100.00,
+            "startdatum": "2020-01",
+            "enddatum": "2040-01",
+            "zinslaufzeit": 20,
+            "sollzins": 1.75,
+            "sollzinsbindung": "2040-01",
+            "effektivzins": 1.77,
+            "sondertilgungsrecht": 5.00,
+            "tilgungsraten": [
+              {"startdatum": "2020-01", "enddatum": "2040-01", "rate": 2.50}
+            ],
+            "sondertilgungen": [
+              {"datum": "2020-01",  "betrag": 2000},
+              {"datum": "2021-01",  "betrag": 2500},
+              {"datum": "2022-01",  "betrag": 3000},
+              {"datum": "2023-01",  "betrag": 3500},
+              {"datum": "2024-01",  "betrag": 4000},
+              {"datum": "2025-01",  "betrag": 4500},
+              {"datum": "2026-01",  "betrag": 5000},
+              {"datum": "2027-01",  "betrag": 5500},
+              {"datum": "2028-01",  "betrag": 6000},
+              {"datum": "2029-01",  "betrag": 6500},
+              {"datum": "2030-01",  "betrag": 7000},
+              {"datum": "2031-01",  "betrag": 7500},
+              {"datum": "2032-01",  "betrag": 8000},
+              {"datum": "2033-01",  "betrag": 8500},
+              {"datum": "2034-01",  "betrag": 9000},
+              {"datum": "2035-01",  "betrag": 9500},
+              {"datum": "2036-01",  "betrag": 10000},
+              {"datum": "2037-01",  "betrag": 10500},
+              {"datum": "2038-01",  "betrag": 11000},
+              {"datum": "2039-01",  "betrag": 11500},
+              {"datum": "2040-01",  "betrag": 12000}
+            ],
+            "kpdNachZinsbindung": {
+              "zins": 8.00,
+              "tilgung": 0.00
+            },
+            "tilgungsfreieMonate": 0
+          },
+          "ausgabe": {
+            "monatlicheAbzahlung": 715.89,
+            "restschuldNachZinsbindung": 0,
+            "voraussichtlicheLaufzeit": 20.0
+          }
+        }
+      ]
+    }
+  ]
+}

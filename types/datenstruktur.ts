@@ -1,12 +1,11 @@
 export type Tilgungsrate = {
-  startDatum: string;
-  endDatum: string;
+  startdatum: string;
+  enddatum: string;
   rate: number;
 }
 
 export type Sondertilgung = {
-  startDatum: string;
-  endDatum: string | null;
+  datum: string;
   betrag: number;
 }
 
@@ -34,28 +33,32 @@ export type Variante = {
   tranchen: Tranche[];
 }
 
+export type Kunde = {
+  objektnutzung: string;
+  objektArt: string;
+  darlehensnehmer: string;
+}
+
+export type Kostenaufstellung = {
+  kaufpreis: number;
+  grunderwerbssteuer: number;
+  grunderwerbssteuerPreis: number;
+  notarUndGerichtskosten: number;
+  notarUndGerichtskostenPreis: number;
+  vermittlerprovision: number;
+  vermittlerprovisionPreis: number;
+  neubaukostenUndBaunebenkosten: number;
+  sanierungskosten: number;
+  sonstiges: number;
+  eigenkapital: number;
+  eigenleistung: number;
+  gesamtaufwand: number;
+  nettoDarlehensbetrag: number;
+  risikoanalyse: number;
+}
+
 export type Datenstruktur = {
-  kunde: {
-    objektnutzung: string;
-    objektArt: string;
-    darlehensnehmer: string;
-  };
-  kostenaufstellung: {
-    kaufpreis: number;
-    grunderwerbssteuer: number;
-    grunderwerbssteuerPreis: number;
-    notarUndGerichtskosten: number;
-    notarUndGerichtskostenPreis: number;
-    vermittlerprovision: number;
-    vermittlerprovisionPreis: number;
-    neubaukostenUndBaunebenkosten: number;
-    sanierungskosten: number;
-    sonstiges: number;
-    eigenkapital: number;
-    eigenleistung: number;
-    gesamtaufwand: number;
-    nettoDarlehensbetrag: number;
-    risikoanalyse: number;
-  };
+  kunde: Kunde;
+  kostenaufstellung: Kostenaufstellung;
   finanzierungsvarianten: Variante[];
 };
