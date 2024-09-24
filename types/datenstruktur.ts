@@ -31,6 +31,8 @@ export type Tranche = {
 export type Variante = {
   name: string;
   tranchen: Tranche[];
+  grafikGesamtentwicklung: { jahr: number; restschuld: number; immobilienwert: number }[]; // Add this line
+  grafikMonatlicheRaten: { jahr: number, zinsanteil: number, tilgungsanteil: number }[]; // Add this line
 }
 
 export type Kunde = {
@@ -62,3 +64,5 @@ export type Datenstruktur = {
   kostenaufstellung: Kostenaufstellung;
   finanzierungsvarianten: Variante[];
 };
+
+export type stringJson = { [key: string]: string }

@@ -19,9 +19,10 @@ type TrancheProps = {
   tranche: TrancheType;
   onUpdate: (updatedTranche: Partial<TrancheType['eingabe']>) => void;
   onUpdateAusgabe: (updatedAusgabe: Partial<TrancheType['ausgabe']>) => void;
+  onDelete: () => void;
 };
 
-export function Tranche({ tranche, onUpdate, onUpdateAusgabe }: TrancheProps) {
+export function Tranche({ tranche, onUpdate, onUpdateAusgabe, onDelete }: TrancheProps) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isSondertilgungenModalOpen, setIsSondertilgungenModalOpen] = useState(false);
 
@@ -154,19 +155,25 @@ export function Tranche({ tranche, onUpdate, onUpdateAusgabe }: TrancheProps) {
 
   return (
     <Card>
-      <CardHeader 
-        className="flex flex-row items-center justify-between cursor-pointer"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <CardTitle className="custom-headline">{tranche.eingabe.tranchenName}</CardTitle>
-        {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+      <CardHeader className="flex flex-row items-center justify-between cursor-pointer">
+        <div className="flex items-center">
+          {isExpanded ? (
+            <ChevronUp className="h-4 w-4 mr-2" onClick={() => setIsExpanded(!isExpanded)} />
+          ) : (
+            <ChevronDown className="h-4 w-4 mr-2" onClick={() => setIsExpanded(!isExpanded)} />
+          )}
+          <CardTitle className="custom-headline">{tranche.eingabe.tranchenName}</CardTitle>
+        </div>
+        <Button variant="link" className="p-0 h-auto" onClick={onDelete}>
+          <span className="text-xl">&times;</span>
+        </Button>
       </CardHeader>
       {isExpanded && (
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-4">
               <div>
-                <Label htmlFor="tranchenName">Name der Tranche:</Label>
+                <Label htmlFor="tranchenName">Tranchenname:</Label>
                 <Input
                   id="tranchenName"
                   value={tranche.eingabe.tranchenName}

@@ -125,6 +125,92 @@
             "voraussichtlicheLaufzeit": 16.0
           }
         }
+      ],
+      "summeMonatlicheAbzahlungen": 549.46,
+      "finanzierungsEntwicklung": [
+        {
+          "Jahr": 2020,
+          "Immobilienwert": "180.223 €",
+          "Restschuld Jahresende": "201.322 €",
+          "Sondertilgung gesamt": "1.678 €",
+          "Summe Tilgung gesamt": "7.236 €",
+          "Rate monatlich": "795 €"
+        },
+        {
+          "Jahr": 2021,
+          "Immobilienwert": "183.828 €",
+          "Restschuld Jahresende": "188.712 €",
+          "Sondertilgung gesamt": "7.400 €",
+          "Summe Tilgung gesamt": "12.610 €",
+          "Rate monatlich": "795 €"
+        },
+        {
+          "Jahr": 2022,
+          "Immobilienwert": "187.504 €",
+          "Restschuld Jahresende": "175.521 €",
+          "Sondertilgung gesamt": "7.400 €",
+          "Summe Tilgung gesamt": "13.191 €",
+          "Rate monatlich": "795 €"
+        }
+      ],
+      "ereignisse": [
+        {
+          "Monat": "2020-08",
+          "Baustein": "Bank",
+          "Ereignis": "Auszahlung Darlehen (161.000 €)"
+        },
+        {
+          "Monat": "2020-08",
+          "Baustein": "Bank",
+          "Ereignis": "Auszahlung Darlehen (42.000 €)"
+        },
+        {
+          "Monat": "2025-02",
+          "Baustein": "Eigenkapitalhilfedarlehen",
+          "Ereignis": "Tilgungsende"
+        }
+      ],
+      "grafikMonatlicheRaten": [
+        {"jahr": 2020, "zinsanteil": 300, "tilgungsanteil": 495},
+        {"jahr": 2021, "zinsanteil": 280, "tilgungsanteil": 515},
+        {"jahr": 2022, "zinsanteil": 260, "tilgungsanteil": 535},
+        {"jahr": 2023, "zinsanteil": 240, "tilgungsanteil": 555},
+        {"jahr": 2024, "zinsanteil": 220, "tilgungsanteil": 575},
+        {"jahr": 2025, "zinsanteil": 200, "tilgungsanteil": 302},
+        {"jahr": 2026, "zinsanteil": 180, "tilgungsanteil": 269},
+        {"jahr": 2027, "zinsanteil": 160, "tilgungsanteil": 289},
+        {"jahr": 2028, "zinsanteil": 140, "tilgungsanteil": 309},
+        {"jahr": 2029, "zinsanteil": 120, "tilgungsanteil": 329},
+        {"jahr": 2030, "zinsanteil": 100, "tilgungsanteil": 349},
+        {"jahr": 2031, "zinsanteil": 90, "tilgungsanteil": 359},
+        {"jahr": 2032, "zinsanteil": 80, "tilgungsanteil": 369},
+        {"jahr": 2033, "zinsanteil": 70, "tilgungsanteil": 379},
+        {"jahr": 2034, "zinsanteil": 60, "tilgungsanteil": 389},
+        {"jahr": 2035, "zinsanteil": 50, "tilgungsanteil": 399},
+        {"jahr": 2036, "zinsanteil": 230, "tilgungsanteil": 366},
+        {"jahr": 2037, "zinsanteil": 220, "tilgungsanteil": 376},
+        {"jahr": 2038, "zinsanteil": 50, "tilgungsanteil": 546}
+      ],
+      "grafikGesamtentwicklung": [
+        {"jahr": 2020, "restschuld": 201322, "immobilienwert": 180223},
+        {"jahr": 2021, "restschuld": 188712, "immobilienwert": 183828},
+        {"jahr": 2022, "restschuld": 175521, "immobilienwert": 187504},
+        {"jahr": 2023, "restschuld": 161717, "immobilienwert": 191254},
+        {"jahr": 2024, "restschuld": 147269, "immobilienwert": 195079},
+        {"jahr": 2025, "restschuld": 135793, "immobilienwert": 198981},
+        {"jahr": 2026, "restschuld": 124800, "immobilienwert": 202961},
+        {"jahr": 2027, "restschuld": 113657, "immobilienwert": 207020},
+        {"jahr": 2028, "restschuld": 102363, "immobilienwert": 211160},
+        {"jahr": 2029, "restschuld": 90916, "immobilienwert": 215383},
+        {"jahr": 2030, "restschuld": 79313, "immobilienwert": 219691},
+        {"jahr": 2031, "restschuld": 69963, "immobilienwert": 224085},
+        {"jahr": 2032, "restschuld": 60487, "immobilienwert": 228567},
+        {"jahr": 2033, "restschuld": 50881, "immobilienwert": 233138},
+        {"jahr": 2034, "restschuld": 41145, "immobilienwert": 237801},
+        {"jahr": 2035, "restschuld": 31268, "immobilienwert": 242557},
+        {"jahr": 2036, "restschuld": 20840, "immobilienwert": 247408},
+        {"jahr": 2037, "restschuld": 9769, "immobilienwert": 252356},
+        {"jahr": 2038, "restschuld": 0, "immobilienwert": 257403}
       ]
     },
     {
@@ -181,6 +267,11 @@
             "voraussichtlicheLaufzeit": 20.0
           }
         }
+      ],
+      "grafikGesamtentwicklung": [
+        {"jahr": 2023, "restschuld": 196000, "immobilienwert": 200000},
+        {"jahr": 2024, "restschuld": 190000, "immobilienwert": 202000},
+        {"jahr": 2025, "restschuld": 184000, "immobilienwert": 204000}
       ]
     }
   ]

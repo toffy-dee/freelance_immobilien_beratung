@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Kostenaufstellung } from '@/types/datenstruktur';
 import { useEffect, useState } from 'react';
+import { stringJson } from '@/types/datenstruktur';
 
 const formatNumber = (value: number): string => {
   return new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
@@ -15,7 +16,7 @@ const parseNumber = (value: string): number => {
 
 export function KostenAufstellung() {
   const { datenstruktur, setDatenstruktur } = useStateContext();
-  const [inputValues, setInputValues] = useState<{ [key: string]: string }>({});
+  const [inputValues, setInputValues] = useState<stringJson>({});
 
   useEffect(() => {
     setInputValues({
@@ -28,6 +29,7 @@ export function KostenAufstellung() {
   }, []);
 
   const updateKostenaufstellung = (field: keyof Kostenaufstellung, value: string) => {
+    console.log('updateKostenaufstellung: ', value);
     setInputValues(prev => ({ ...prev, [field]: value }));
     
     const numericValue = parseNumber(value);

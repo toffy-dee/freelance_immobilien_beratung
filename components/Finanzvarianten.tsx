@@ -43,6 +43,8 @@ export function Finanzvarianten() {
               },
             },
           ],
+          grafikGesamtentwicklung: [], // Add this line if not already present,
+          grafikMonatlicheRaten: []
         },
       ],
     }));
@@ -131,6 +133,20 @@ export function Finanzvarianten() {
     }));
   };
 
+  const deleteTranche = (varianteIndex: number, trancheIndex: number) => {
+    setDatenstruktur(prev => ({
+      ...prev,
+      finanzierungsvarianten: prev.finanzierungsvarianten.map((variante, varianteIdx) =>
+        varianteIdx === varianteIndex
+          ? {
+              ...variante,
+              tranchen: variante.tranchen.filter((_, trancheIdx) => trancheIdx !== trancheIndex)
+            }
+          : variante
+      )
+    }));
+  };
+
   return (
     <Card className="section-card">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -158,6 +174,7 @@ export function Finanzvarianten() {
                 onUpdateTranche={(trancheIndex, updatedTranche) => updateTranche(varianteIndex, trancheIndex, updatedTranche)}
                 onUpdateTrancheAusgabe={(trancheIndex, updatedAusgabe) => updateTrancheAusgabe(varianteIndex, trancheIndex, updatedAusgabe)}
                 onAddTranche={() => trancheHinzufügen(varianteIndex)}
+                onDeleteTranche={(trancheIndex) => deleteTranche(varianteIndex, trancheIndex)}
               />
             </TabsContent>
           ))}

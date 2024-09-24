@@ -64,8 +64,10 @@ export function Kundeneingaben() {
                 <SelectValue placeholder="Nutzung auswählen" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="eigennutzung">Volle Eigennutzung</SelectItem>
                 <SelectItem value="teilnutzung">Eigennutzung und Vermietung</SelectItem>
+                <SelectItem value="eigennutzung">
+                  Volle Eigennutzung
+                </SelectItem>
                 <SelectItem value="vermietung">Volle Vermietung</SelectItem>
               </SelectContent>
             </Select>
